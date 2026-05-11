@@ -1,5 +1,6 @@
-FH-2 CQ-Machine Controller - Functional and Technical Descriptions
-Functional Description
+**FH-2 CQ-Machine Controller - Functional and Technical Descriptions**
+
+**Functional Description**
 The FH-2 CQ-Machine Controller is an Arduino NANO-based system that provides automated control for the Yaesu FH-2 Morse keyer, enabling users to send pre-programmed CQ messages at configurable intervals. This controller bridges the gap between traditional manual keying and modern automation, making it particularly useful for contest stations and field operations where consistent, timed CQ transmissions are essential.
 
 The system operates by reading the FH-2's button matrix through an analog voltage sensing mechanism, where each button produces a distinct voltage level through a resistor network. When a button is pressed, the controller activates the corresponding channel on a 16-channel analog multiplexer (74HC4067) to send the appropriate control pulse to the FH-2 unit. The core functionality centers on the interval repeat feature, which allows buttons 1 through 5 to automatically repeat their transmission at user-defined intervals ranging from 10 to 60 seconds. A front-panel potentiometer provides real-time adjustment of the interval timing, while a toggle switch enables or disables the repeat functionality entirely.
@@ -8,7 +9,7 @@ The user interface consists of minimal but effective visual indicators: a pulse 
 
 The controller's design philosophy prioritizes reliability and simplicity, using only through-hole components for easy construction and maintenance. The debounce algorithm ensures that only genuine button presses are registered, preventing false triggers from mechanical switch bounce. The multiplexer timeout feature ensures that no channel remains selected indefinitely, protecting both the multiplexer and the connected equipment from potential damage due to software or hardware faults.
 
-Technical Description
+**Technical Description**
 The FH-2 CQ-Machine Controller employs an Arduino NANO (ATmega328P) as its processing core, utilizing the microcontroller's analog-to-digital converter for button matrix scanning and its digital I/O pins for multiplexer control and LED indication. The pin configuration has been carefully chosen to optimize the limited I/O available on the NANO form factor while maintaining logical organization of the various subsystems.
 
 Pin Assignment Summary:
