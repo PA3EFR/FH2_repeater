@@ -10,7 +10,7 @@ The user interface consists of minimal but effective visual indicators: a pulse 
 The controller's design philosophy prioritizes reliability and simplicity, using only through-hole components for easy construction and maintenance. The debounce algorithm ensures that only genuine button presses are registered, preventing false triggers from mechanical switch bounce. The multiplexer timeout feature ensures that no channel remains selected indefinitely, protecting both the multiplexer and the connected equipment from potential damage due to software or hardware faults.
 
 **Technical Description**
-The FH-2 CQ-Machine Controller employs an Arduino NANO (ATmega328P) as its processing core, utilizing the microcontroller's analog-to-digital converter for button matrix scanning and its digital I/O pins for multiplexer control and LED indication. The pin configuration has been carefully chosen to optimize the limited I/O available on the NANO form factor while maintaining logical organization of the various subsystems.
+The FH-2 Repeater employs an Arduino NANO (ATmega328P) as its processing core, utilizing the microcontroller's analog-to-digital converter for button matrix scanning and its digital I/O pins for multiplexer control and LED indication. The pin configuration has been carefully chosen to optimize the limited I/O available on the NANO form factor while maintaining logical organization of the various subsystems.
 
 Pin Assignment Summary:
 
