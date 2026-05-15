@@ -189,7 +189,7 @@ void printHeader() {
     Serial.println(F("------------------------------------------"));
     Serial.println(F("  A0 = ADC FH-2 input"));
     Serial.println(F("  A1 = Potmeter interval"));
-    Serial.println(F("  D2-D5 = MUX address (S0-S3)"));
+    Serial.println(F("  D5-D2 = MUX address (S0-S3)"));
     Serial.println(F("  D6 = MUX ~EN"));
     Serial.println(F("  D7 = Repeat schakelaar (GND=uit)"));
     Serial.println(F("  D9 = Puls LED"));
@@ -215,10 +215,10 @@ void printCurrentSettings() {
 // MUX KANAAL INSTELLEN
 // ---------------------------------------------------------------------------
 void setMuxChannel(int channel) {
-    digitalWrite(PIN_S0, (channel & 1) ? HIGH : LOW);
-    digitalWrite(PIN_S1, (channel & 2) ? HIGH : LOW);
-    digitalWrite(PIN_S2, (channel & 4) ? HIGH : LOW);
-    digitalWrite(PIN_S3, (channel & 8) ? HIGH : LOW);
+    digitalWrite(PIN_S3, (channel & 1) ? HIGH : LOW);
+    digitalWrite(PIN_S2, (channel & 2) ? HIGH : LOW);
+    digitalWrite(PIN_S1, (channel & 4) ? HIGH : LOW);
+    digitalWrite(PIN_S0, (channel & 8) ? HIGH : LOW);
 }
 
 // ---------------------------------------------------------------------------
