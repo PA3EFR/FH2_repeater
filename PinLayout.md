@@ -32,13 +32,13 @@ Analoge pinnen:
 
 Digitale pinnen:
 
-&#x20; D2   → MUX S0 (address bit 0)
+&#x20; D5   → MUX S0 (address bit 0)
 
-&#x20; D3   → MUX S1 (address bit 1)
+&#x20; D4   → MUX S1 (address bit 1)
 
-&#x20; D4   → MUX S2 (address bit 2)
+&#x20; D3   → MUX S2 (address bit 2)
 
-&#x20; D5   → MUX S3 (address bit 3)
+&#x20; D2   → MUX S3 (address bit 3)
 
 &#x20; D6   → MUX \~EN (enable, actief laag)
 
@@ -60,13 +60,13 @@ Arduino Nano          74HC4067 MUX
 
 \---------            -------------
 
-&#x20; D2 (S0)    ────    S0
+&#x20; D5 (S0)    ────    S0
 
-&#x20; D3 (S1)    ────    S1
+&#x20; D4 (S1)    ────    S1
 
-&#x20; D4 (S2)    ────    S2
+&#x20; D3 (S2)    ────    S2
 
-&#x20; D5 (S3)    ────    S3
+&#x20; D2 (S3)    ────    S3
 
 &#x20; D6 (\~EN)   ────    \~EN
 
