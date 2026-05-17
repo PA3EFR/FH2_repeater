@@ -1,0 +1,739 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FH-2 Repeater – Projectdocument</title>
+  <style>
+    :root {
+      --primary: #1a3a5c;
+      --accent:  #2e7d32;
+      --accent2: #c62828;
+      --light:   #f4f6f9;
+      --border:  #cfd8dc;
+      --code-bg: #263238;
+      --code-fg: #cfd8dc;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      background: var(--light);
+      color: #212121;
+      line-height: 1.65;
+    }
+
+    /* ── HEADER ── */
+    header {
+      background: var(--primary);
+      color: #fff;
+      padding: 36px 48px 28px;
+      border-bottom: 5px solid var(--accent);
+    }
+    header h1 { font-size: 2rem; letter-spacing: .5px; }
+    header .subtitle { font-size: 1rem; opacity: .85; margin-top: 6px; }
+    header .meta {
+      display: flex; gap: 32px; margin-top: 18px;
+      font-size: .85rem; opacity: .75;
+    }
+    header .meta span::before { content: '▸ '; }
+
+    /* ── NAV ── */
+    nav {
+      background: #fff;
+      border-bottom: 1px solid var(--border);
+      padding: 0 48px;
+      display: flex; flex-wrap: wrap; gap: 0;
+    }
+    nav a {
+      display: inline-block;
+      padding: 12px 18px;
+      color: var(--primary);
+      text-decoration: none;
+      font-size: .88rem;
+      font-weight: 600;
+      border-bottom: 3px solid transparent;
+      transition: border-color .2s;
+    }
+    nav a:hover { border-bottom-color: var(--accent); }
+
+    /* ── LAYOUT ── */
+    main {
+      max-width: 1020px;
+      margin: 36px auto;
+      padding: 0 24px 60px;
+    }
+
+    /* ── SECTIONS ── */
+    section {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      margin-bottom: 32px;
+      overflow: hidden;
+    }
+    .section-header {
+      background: var(--primary);
+      color: #fff;
+      padding: 14px 24px;
+      font-size: 1.05rem;
+      font-weight: 700;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .section-header .icon { font-size: 1.2rem; }
+    .section-body { padding: 24px; }
+
+    h2 { font-size: 1.15rem; color: var(--primary); margin: 22px 0 8px; }
+    h2:first-child { margin-top: 0; }
+    h3 { font-size: 1rem; color: #444; margin: 16px 0 6px; }
+    p  { margin-bottom: 12px; }
+    ul, ol { margin: 0 0 12px 22px; }
+    li { margin-bottom: 4px; }
+
+    /* ── TABLES ── */
+    table {
+      width: 100%; border-collapse: collapse;
+      font-size: .9rem; margin-bottom: 16px;
+    }
+    thead tr { background: var(--primary); color: #fff; }
+    thead th { padding: 10px 14px; text-align: left; }
+    tbody tr:nth-child(even) { background: #f4f6f9; }
+    tbody td { padding: 9px 14px; border-bottom: 1px solid var(--border); }
+    tbody tr:last-child td { border-bottom: none; }
+
+    /* ── CODE ── */
+    pre {
+      background: var(--code-bg);
+      color: var(--code-fg);
+      border-radius: 5px;
+      padding: 18px 20px;
+      font-size: .82rem;
+      line-height: 1.55;
+      overflow-x: auto;
+      margin-bottom: 14px;
+    }
+    code { font-family: 'Consolas', 'Courier New', monospace; }
+    p code, li code {
+      background: #e8eaf6;
+      color: #311b92;
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-size: .88em;
+    }
+
+    /* ── BADGES / PILLS ── */
+    .badge {
+      display: inline-block;
+      padding: 2px 10px;
+      border-radius: 12px;
+      font-size: .78rem;
+      font-weight: 700;
+      margin-left: 8px;
+      vertical-align: middle;
+    }
+    .badge-green  { background: #c8e6c9; color: #1b5e20; }
+    .badge-blue   { background: #bbdefb; color: #0d47a1; }
+    .badge-orange { background: #ffe0b2; color: #e65100; }
+    .badge-red    { background: #ffcdd2; color: #b71c1c; }
+
+    /* ── CALLOUT BOXES ── */
+    .callout {
+      padding: 14px 18px;
+      border-left: 4px solid;
+      border-radius: 0 5px 5px 0;
+      margin: 14px 0;
+      font-size: .92rem;
+    }
+    .callout-info    { background: #e3f2fd; border-color: #1565c0; }
+    .callout-warning { background: #fff8e1; border-color: #f57f17; }
+    .callout-danger  { background: #ffebee; border-color: #c62828; }
+    .callout-success { background: #e8f5e9; border-color: #2e7d32; }
+
+    /* ── STATE MACHINE DIAGRAM ── */
+    .state-diagram {
+      display: flex; align-items: center; justify-content: center;
+      gap: 10px; flex-wrap: wrap; margin: 18px 0;
+    }
+    .state-box {
+      border: 2px solid var(--primary);
+      border-radius: 8px;
+      padding: 10px 18px;
+      text-align: center;
+      min-width: 110px;
+      background: #e8eaf6;
+      font-weight: 700;
+      font-size: .9rem;
+    }
+    .state-box.active { background: #c8e6c9; border-color: var(--accent); }
+    .state-arrow {
+      font-size: 1.5rem; color: #888;
+      display: flex; flex-direction: column;
+      align-items: center; font-size: .75rem;
+    }
+    .state-arrow span { font-size: 1.4rem; line-height: 1; }
+
+    /* ── VOLTAGE TABLE HIGHLIGHT ── */
+    .volt-low  { color: #c62828; font-weight: 700; }
+    .volt-high { color: #1565c0; font-weight: 700; }
+
+    /* ── FOOTER ── */
+    footer {
+      background: var(--primary);
+      color: #90a4ae;
+      text-align: center;
+      padding: 18px;
+      font-size: .82rem;
+      margin-top: 0;
+    }
+    footer a { color: #80cbc4; }
+  </style>
+</head>
+<body>
+
+<!-- ═══════════════ HEADER ═══════════════ -->
+<header>
+  <h1>🔁 FH-2 CQ-Machine Repeater</h1>
+  <div class="subtitle">Projectdocument — Arduino NANO Controller voor Yaesu FH-2 Morsetoets</div>
+  <div class="meta">
+    <span>Auteur: PA3EFR</span>
+    <span>Platform: Arduino NANO (ATmega328P)</span>
+    <span>Firmware versie: 6</span>
+    <span>Datum document: 17 mei 2026</span>
+    <span>Repository: github.com/PA3EFR/FH2_repeater</span>
+  </div>
+</header>
+
+<!-- ═══════════════ NAVIGATIE ═══════════════ -->
+<nav>
+  <a href="#overzicht">📋 Overzicht</a>
+  <a href="#functioneel">⚙️ Functioneel</a>
+  <a href="#hardware">🔌 Hardware</a>
+  <a href="#pinout">📌 Pinout</a>
+  <a href="#knoppen">🔢 Knoppen</a>
+  <a href="#software">💻 Software</a>
+  <a href="#statemachine">🔄 State Machine</a>
+  <a href="#seriele-output">📟 Seriële Output</a>
+  <a href="#bouw">🔧 Bouw</a>
+</nav>
+
+<!-- ═══════════════ MAIN ═══════════════ -->
+<main>
+
+  <!-- 1. PROJECTOVERZICHT -->
+  <section id="overzicht">
+    <div class="section-header"><span class="icon">📋</span> 1. Projectoverzicht</div>
+    <div class="section-body">
+      <p>
+        De <strong>FH-2 Repeater</strong> is een op Arduino NANO gebaseerde controller die automatisch
+        CQ-berichten verstuurt via de Yaesu FH-2 Morsetoets op instelbare tijdsintervallen.
+        Het systeem leest de FH-2 knoppenmatrix via analoge spanningsdetectie en stuurt via een
+        16-kanaals multiplexer (74HC4067) de juiste besturingspuls terug naar de FH-2.
+      </p>
+
+      <div class="callout callout-success">
+        <strong>Primair doel:</strong> Automatisch en herhaalbaar versturen van CQ-oproepen bij
+        contest- en veldactivaties, zonder handmatig ingrijpen van de operator.
+      </div>
+
+      <table>
+        <thead>
+          <tr><th>Kenmerk</th><th>Waarde</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Microcontroller</td><td>Arduino NANO (ATmega328P, 5V/16MHz)</td></tr>
+          <tr><td>Multiplexer</td><td>74HC4067 — 16-kanaals analoog</td></tr>
+          <tr><td>Intervalinstelling</td><td>10 – 60 seconden (via potmeter)</td></tr>
+          <tr><td>Knop-detectiemethode</td><td>ADC spanningsvergelijking (weerstandsladder)</td></tr>
+          <tr><td>Aantal knoppen FH-2</td><td>13 (inclusief rust-positie)</td></tr>
+          <tr><td>Interval-herhaling</td><td>Knoppen 1 t/m 5 (CQ-geheugens)</td></tr>
+          <tr><td>Seriële communicatie</td><td>9600 baud, USB</td></tr>
+          <tr><td>Voedingsspanning</td><td>5V DC, ~100mA</td></tr>
+          <tr><td>Firmware versie</td><td>v6</td></tr>
+          <tr><td>Taal broncode</td><td>C++ (Arduino / AVR)</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 2. FUNCTIONELE BESCHRIJVING -->
+  <section id="functioneel">
+    <div class="section-header"><span class="icon">⚙️</span> 2. Functionele Beschrijving</div>
+    <div class="section-body">
+
+      <h2>Kernfunctionaliteit</h2>
+      <p>
+        Wanneer een operator op één van de knoppen 1–5 van de FH-2 drukt, detecteert de controller
+        dit via de weerstandsladder op analoge pin A0. De controller stuurt vervolgens een puls
+        via de multiplexer naar de FH-2. Indien de <em>Repeat</em>-schakelaar actief is, herhaalt
+        het systeem deze puls automatisch op het door de potmeter ingestelde interval.
+      </p>
+
+      <h2>Gebruiksscenario</h2>
+      <ol>
+        <li>Sluit de controller aan op de FH-2 via de 3,5mm stereo jack.</li>
+        <li>Zet de Repeat-schakelaar op AAN (D7 = HIGH).</li>
+        <li>Stel het gewenste interval in via de potmeter (10–60 seconden).</li>
+        <li>Druk op knop 1–5 op de FH-2 (of via de passthrough).</li>
+        <li>De controller stuurt het CQ-bericht automatisch op het ingestelde interval.</li>
+        <li>Druk opnieuw op dezelfde knop om de cyclus te stoppen.</li>
+      </ol>
+
+      <h2>Stoppen van de intervalcyclus</h2>
+      <ul>
+        <li>Opnieuw indrukken van <strong>dezelfde knop</strong> (1–5)</li>
+        <li>Indrukken van een <strong>andere knop</strong> (directe override)</li>
+        <li>Omzetten van de <strong>Repeat-schakelaar</strong> naar UIT</li>
+      </ul>
+
+      <div class="callout callout-warning">
+        <strong>Let op:</strong> Knoppen 6 t/m 12 (MEM, Links, Up, Rechts, Down, P/B, DEC)
+        sturen wél een eenmalige puls maar starten <em>geen</em> intervalcyclus. Zij stoppen
+        een eventueel actieve cyclus onmiddellijk.
+      </div>
+
+      <h2>Indicatoren</h2>
+      <table>
+        <thead>
+          <tr><th>LED</th><th>Kleur</th><th>Pin</th><th>Betekenis</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Puls LED</td><td>Rood</td><td>D9</td><td>Kort oplichten bij elke puls (1 seconde)</td></tr>
+          <tr><td>Status LED</td><td>Groen</td><td>D10</td><td>Continu aan zolang intervalcyclus actief is</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 3. HARDWARE BESCHRIJVING -->
+  <section id="hardware">
+    <div class="section-header"><span class="icon">🔌</span> 3. Hardware Beschrijving</div>
+    <div class="section-body">
+
+      <h2>Componentenlijst</h2>
+      <table>
+        <thead>
+          <tr><th>Component</th><th>Type / Waarde</th><th>Aantal</th><th>Omschrijving</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Arduino NANO</td><td>ATmega328P, 5V/16MHz</td><td>1</td><td>Hoofdcontroller</td></tr>
+          <tr><td>Multiplexer IC</td><td>74HC4067</td><td>1</td><td>16-kanaals analoog MUX</td></tr>
+          <tr><td>Potmeter</td><td>10 kΩ lineair</td><td>1</td><td>Intervalinstelling</td></tr>
+          <tr><td>LED (rood)</td><td>3mm of 5mm</td><td>1</td><td>Puls-indicator (D9)</td></tr>
+          <tr><td>LED (groen)</td><td>3mm of 5mm</td><td>1</td><td>Status-indicator (D10)</td></tr>
+          <tr><td>Weerstand</td><td>220 Ω</td><td>2</td><td>LED-begrenzers</td></tr>
+          <tr><td>Schakelaar</td><td>Toggle, SPST</td><td>1</td><td>Repeat AAN/UIT (D7)</td></tr>
+          <tr><td>Aansluiting</td><td>3,5mm stereo jack (female)</td><td>1</td><td>Aansluiting FH-2</td></tr>
+          <tr><td>Voeding</td><td>USB of ext. 5V regelaar</td><td>1</td><td>Systeem voeding</td></tr>
+        </tbody>
+      </table>
+
+      <h2>74HC4067 Multiplexer</h2>
+      <p>
+        De 74HC4067 is een 16-kanaals bidirectionele analoge multiplexer/demultiplexer.
+        Vier adreslijnen (S0–S3) selecteren één van de 16 kanalen. De <code>~EN</code>-ingang
+        (actief laag) schakelt de uitgang aan of uit. In dit project wordt de MUX gebruikt
+        om de juiste besturingspuls naar de FH-2 te sturen zonder de knoppenmatrix te verstoren.
+      </p>
+
+      <table>
+        <thead>
+          <tr><th>MUX-kanaal</th><th>FH-2 Knop</th><th>Spanning</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>0</td><td>— (rust / reset)</td><td>—</td></tr>
+          <tr><td>1</td><td>1.text</td><td class="volt-low">0.38V</td></tr>
+          <tr><td>2</td><td>2.text</td><td>0.51V</td></tr>
+          <tr><td>3</td><td>3.text</td><td>0.667V</td></tr>
+          <tr><td>4</td><td>4.text</td><td>0.817V</td></tr>
+          <tr><td>5</td><td>5.text</td><td>1.001V</td></tr>
+          <tr><td>6</td><td>MEM</td><td>1.165V</td></tr>
+          <tr><td>7</td><td>Links (LEFT)</td><td>1.274V</td></tr>
+          <tr><td>8</td><td>Up (UP)</td><td>1.453V</td></tr>
+          <tr><td>9</td><td>Rechts (RIGHT)</td><td>1.628V</td></tr>
+          <tr><td>10</td><td>Down (DOWN)</td><td>1.782V</td></tr>
+          <tr><td>11</td><td>P/B</td><td>1.922V</td></tr>
+          <tr><td>12</td><td>DEC</td><td class="volt-high">2.09V</td></tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-info">
+        <strong>Multiplexer timeout:</strong> Als na 2 seconden geen normale reset plaatsvindt,
+        wordt de MUX automatisch teruggezet naar kanaal 0 en uitgeschakeld. Dit beschermt
+        de FH-2 bij een softwarefout.
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. PINOUT -->
+  <section id="pinout">
+    <div class="section-header"><span class="icon">📌</span> 4. Arduino NANO Pinout</div>
+    <div class="section-body">
+
+      <table>
+        <thead>
+          <tr><th>Functie</th><th>Pin (label)</th><th>Pin (nummer)</th><th>Richting</th><th>Omschrijving</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>ADC FH-2 ingang</td><td>A0</td><td>Pin 14</td><td>INPUT</td><td>Spanningsniveau weerstandsladder FH-2</td></tr>
+          <tr><td>Potmeter interval</td><td>A1</td><td>Pin 15</td><td>INPUT</td><td>10kΩ potmeter, wiper naar A1</td></tr>
+          <tr><td>MUX S0 (adresbit 0)</td><td>D5</td><td>Pin 5</td><td>OUTPUT</td><td>74HC4067 adresbit 0</td></tr>
+          <tr><td>MUX S1 (adresbit 1)</td><td>D4</td><td>Pin 4</td><td>OUTPUT</td><td>74HC4067 adresbit 1</td></tr>
+          <tr><td>MUX S2 (adresbit 2)</td><td>D3</td><td>Pin 3</td><td>OUTPUT</td><td>74HC4067 adresbit 2</td></tr>
+          <tr><td>MUX S3 (adresbit 3)</td><td>D2</td><td>Pin 2</td><td>OUTPUT</td><td>74HC4067 adresbit 3</td></tr>
+          <tr><td>MUX ~Enable</td><td>D6</td><td>Pin 6</td><td>OUTPUT</td><td>Actief laag — schakelt MUX in/uit</td></tr>
+          <tr><td>Repeat schakelaar</td><td>D7</td><td>Pin 7</td><td>INPUT_PULLUP</td><td>Toggle naar GND = UIT, open = AAN</td></tr>
+          <tr><td>Puls LED (rood)</td><td>D9</td><td>Pin 9</td><td>OUTPUT</td><td>Via 220Ω naar GND</td></tr>
+          <tr><td>Status LED (groen)</td><td>D10</td><td>Pin 10</td><td>OUTPUT</td><td>Via 220Ω naar GND</td></tr>
+          <tr><td>Voeding</td><td>5V / GND</td><td>—</td><td>POWER</td><td>USB of externe 5V regelaar</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Aansluitschema (ASCII)</h2>
+      <pre><code>
+  Arduino NANO                74HC4067 MUX
+  ─────────────               ─────────────
+  D5  (S0) ────────────────── S0
+  D4  (S1) ────────────────── S1
+  D3  (S2) ────────────────── S2
+  D2  (S3) ────────────────── S3
+  D6  (~EN)────────────────── ~EN
+  5V  ─────────────────────── VCC (MUX)
+  GND ─────────────────────── GND (MUX)
+
+  D7  ─────[Toggle SW]─────── GND          (Repeat AAN/UIT)
+  D9  ─────[RED LED]──[220Ω]─ GND          (Puls indicator)
+  D10 ─────[GRN LED]──[220Ω]─ GND          (Status indicator)
+
+  A0  ─────────────────────── FH-2 ADC signaal (weerstandsladder)
+  A1  ─────[Potmeter wiper]── (potmeter 10kΩ: 5V ─ POT ─ GND)
+
+  MUX OUT ─────────────────── FH-2 besturingsaansluiting (3,5mm jack)
+      </code></pre>
+    </div>
+  </section>
+
+  <!-- 5. KNOPDETECTIE -->
+  <section id="knoppen">
+    <div class="section-header"><span class="icon">🔢</span> 5. Knopdetectie — Spanningsreferentietabel</div>
+    <div class="section-body">
+
+      <p>
+        De FH-2 gebruikt een weerstandsladder waarbij elke knop een unieke spanning produceert
+        op de analoge ingang A0. De controller meet deze spanning en vergelijkt met onderstaande
+        referentietabel. Een tolerantievenster van <strong>±0,15V</strong> zorgt voor betrouwbare
+        detectie ondanks kleine voedings- of temperatuurschommelingen.
+      </p>
+
+      <table>
+        <thead>
+          <tr><th>Index</th><th>Knopaanduiding</th><th>Referentiespanning (V)</th><th>ADC-waarde (~)</th><th>Interval-herhaling</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>0</td><td>— (rust)</td><td>2.53</td><td>519</td><td><span class="badge badge-orange">N.v.t.</span></td></tr>
+          <tr><td>1</td><td>1.text</td><td class="volt-low">0.38</td><td>78</td><td><span class="badge badge-green">JA</span></td></tr>
+          <tr><td>2</td><td>2.text</td><td>0.51</td><td>105</td><td><span class="badge badge-green">JA</span></td></tr>
+          <tr><td>3</td><td>3.text</td><td>0.667</td><td>137</td><td><span class="badge badge-green">JA</span></td></tr>
+          <tr><td>4</td><td>4.text</td><td>0.817</td><td>167</td><td><span class="badge badge-green">JA</span></td></tr>
+          <tr><td>5</td><td>5.text</td><td>1.001</td><td>205</td><td><span class="badge badge-green">JA</span></td></tr>
+          <tr><td>6</td><td>MEM</td><td>1.165</td><td>239</td><td><span class="badge badge-red">NEE</span></td></tr>
+          <tr><td>7</td><td>Links (LEFT)</td><td>1.274</td><td>261</td><td><span class="badge badge-red">NEE</span></td></tr>
+          <tr><td>8</td><td>Up (UP)</td><td>1.453</td><td>298</td><td><span class="badge badge-red">NEE</span></td></tr>
+          <tr><td>9</td><td>Rechts (RIGHT)</td><td>1.628</td><td>334</td><td><span class="badge badge-red">NEE</span></td></tr>
+          <tr><td>10</td><td>Down (DOWN)</td><td>1.782</td><td>365</td><td><span class="badge badge-red">NEE</span></td></tr>
+          <tr><td>11</td><td>P/B</td><td>1.922</td><td>394</td><td><span class="badge badge-red">NEE</span></td></tr>
+          <tr><td>12</td><td>DEC</td><td class="volt-high">2.09</td><td>429</td><td><span class="badge badge-red">NEE</span></td></tr>
+        </tbody>
+      </table>
+
+      <h2>Detectie-algoritme</h2>
+      <p>
+        Het algoritme selecteert de knop waarvan de referentiespanning het dichtst bij de
+        gemeten waarde ligt (<em>best-match</em>). Alleen als het minimale verschil kleiner is
+        dan de tolerantie (0,15V) wordt de knop als ingedrukt beschouwd.
+      </p>
+      <pre><code>
+  gemeten_spanning = (adc_waarde * 5.0) / 1023
+
+  voor elke knop i:
+      verschil = |referentie[i] - gemeten_spanning|
+      if verschil < minimum_tot_nu:
+          minimum_tot_nu = verschil
+          beste_match = i
+
+  if minimum_tot_nu < 0.15V:
+      gedetecteerde_knop = beste_match
+  else:
+      gedetecteerde_knop = 0  (rust)
+      </code></pre>
+
+      <h2>Debounce</h2>
+      <p>
+        Na een initiële detectie wordt 50ms gewacht en opnieuw gemeten. Alleen als beide
+        metingen overeenkomen wordt de knop als geldig beschouwd. Dit elimineert valse
+        detecties door contactstuitering.
+      </p>
+    </div>
+  </section>
+
+  <!-- 6. SOFTWARE BESCHRIJVING -->
+  <section id="software">
+    <div class="section-header"><span class="icon">💻</span> 6. Software Beschrijving</div>
+    <div class="section-body">
+
+      <h2>Firmware versie 6 — Overzicht</h2>
+      <p>
+        De firmware is geschreven in C++ voor de Arduino IDE. De structuur volgt een modulaire
+        opzet met afzonderlijke functies voor knopdetectie, MUX-besturing, pulsafgifte en
+        seriële rapportage. De hoofdlus implementeert coöperatieve multitasking op ~100Hz.
+      </p>
+
+      <h2>Definities &amp; Constanten</h2>
+      <table>
+        <thead>
+          <tr><th>Constante</th><th>Waarde</th><th>Omschrijving</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>MIN_INTERVAL</code></td><td>10 s</td><td>Minimale intervaltijd</td></tr>
+          <tr><td><code>MAX_INTERVAL</code></td><td>60 s</td><td>Maximale intervalijd</td></tr>
+          <tr><td><code>PULSE_DURATION</code></td><td>250 ms</td><td>Duur van de MUX-puls naar FH-2</td></tr>
+          <tr><td><code>DEBOUNCE_MS</code></td><td>50 ms</td><td>Debounce vertraging</td></tr>
+          <tr><td><code>MUX_TIMEOUT_MS</code></td><td>2000 ms</td><td>Veiligheids-timeout MUX</td></tr>
+          <tr><td><code>TOLERANTIE</code></td><td>0.15 V</td><td>Tolerantievenster knopdetectie</td></tr>
+          <tr><td><code>VREF</code></td><td>5.0 V</td><td>ADC referentiespanning</td></tr>
+          <tr><td><code>NUM_BUTTONS</code></td><td>13</td><td>Aantal knoppen incl. ruststand</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Kernfuncties</h2>
+      <table>
+        <thead>
+          <tr><th>Functie</th><th>Beschrijving</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>setup()</code></td><td>Pin-configuratie, initialisatie MUX, lees startinterval, print header naar serieel</td></tr>
+          <tr><td><code>loop()</code></td><td>Hoofdlus: ADC lezen, change detection, knopverwerking, interval-puls, LED-beheer</td></tr>
+          <tr><td><code>detectButtonByVoltage(adc)</code></td><td>Best-match spanning → knopindex (0–12)</td></tr>
+          <tr><td><code>canRepeatWithInterval(btn)</code></td><td>Controleert of knop 1–5 is (interval-herhaling toegestaan)</td></tr>
+          <tr><td><code>setMuxChannel(ch)</code></td><td>Zet S0–S3 adreslijnen voor het gewenste MUX-kanaal</td></tr>
+          <tr><td><code>sendPulse(ch, type)</code></td><td>Activeer MUX → 250ms wachten → deactiveer MUX → Puls LED aan</td></tr>
+          <tr><td><code>readInterval()</code></td><td>Leest A1 potmeter, mapt naar 10–60 seconden</td></tr>
+          <tr><td><code>reportButtonChange()</code></td><td>Seriële output bij knopwijziging</td></tr>
+          <tr><td><code>reportCycleStart()</code></td><td>Seriële output bij start intervalcyclus</td></tr>
+          <tr><td><code>reportCycleStop()</code></td><td>Seriële output bij stop intervalcyclus</td></tr>
+          <tr><td><code>reportStatusChange()</code></td><td>Seriële output bij wijziging Repeat-schakelaar</td></tr>
+          <tr><td><code>reportIntervalChange()</code></td><td>Seriële output bij wijziging intervalwaarde</td></tr>
+          <tr><td><code>printHeader()</code></td><td>Welkomstboodschap met pinout bij opstart</td></tr>
+          <tr><td><code>printCurrentSettings()</code></td><td>Toont huidige interval en Repeat-status</td></tr>
+        </tbody>
+      </table>
+
+      <h2>Intervalinstelling via potmeter</h2>
+      <p>
+        De analoge waarde van A1 (0–1023) wordt lineair gemapt naar 10–60 seconden via
+        Arduino's <code>map()</code> functie. De potmeter wordt elke lus-iteratie gelezen;
+        bij een gewijzigde waarde wordt het nieuwe interval direct actief (ook tijdens een
+        lopende cyclus).
+      </p>
+      <pre><code>
+  interval = map(analogRead(A1), 0, 1023, 10, 60);
+      </code></pre>
+    </div>
+  </section>
+
+  <!-- 7. STATE MACHINE -->
+  <section id="statemachine">
+    <div class="section-header"><span class="icon">🔄</span> 7. State Machine — Interval Cyclus</div>
+    <div class="section-body">
+
+      <p>Het intervalrepeat-systeem werkt als een eenvoudige state machine met drie toestanden:</p>
+
+      <div class="state-diagram">
+        <div class="state-box">IDLE<br><small>(rust)</small></div>
+        <div class="state-arrow">
+          <small>Knop 1–5 ingedrukt<br>+ Repeat AAN</small>
+          <span>➡</span>
+        </div>
+        <div class="state-box active">ACTIEF<br><small>(interval loopt)</small></div>
+        <div class="state-arrow">
+          <small>Zelfde knop / andere knop<br>/ Repeat UIT</small>
+          <span>➡</span>
+        </div>
+        <div class="state-box">GESTOPT<br><small>(→ IDLE)</small></div>
+      </div>
+
+      <table>
+        <thead>
+          <tr><th>Toestand</th><th>Conditie(s) om te verlaten</th><th>Actie</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>IDLE</strong></td>
+            <td>Knop 1–5 ingedrukt, Repeat = AAN</td>
+            <td>→ ACTIEF: eerste puls direct, timer gestart</td>
+          </tr>
+          <tr>
+            <td><strong>ACTIEF</strong></td>
+            <td>Dezelfde knop opnieuw ingedrukt</td>
+            <td>→ GESTOPT / IDLE: Status LED uit</td>
+          </tr>
+          <tr>
+            <td><strong>ACTIEF</strong></td>
+            <td>Andere knop ingedrukt</td>
+            <td>Cyclus direct gestopt, nieuwe puls verstuurd</td>
+          </tr>
+          <tr>
+            <td><strong>ACTIEF</strong></td>
+            <td>Repeat-schakelaar UIT gezet</td>
+            <td>→ GESTOPT / IDLE: geen verdere pulsen</td>
+          </tr>
+          <tr>
+            <td><strong>ACTIEF</strong></td>
+            <td>Timer bereikt interval (10–60s)</td>
+            <td>Automatische puls verstuurd, timer herstart</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout callout-info">
+        <strong>Opmerking:</strong> De Repeat-schakelaar (D7) blokkeert de automatische pulsafgifte
+        maar stopt ook een actieve cyclus onmiddellijk. De eerste puls bij het starten van een
+        cyclus wordt altijd direct verstuurd, ongeacht de ingestelde intervaltijd.
+      </div>
+    </div>
+  </section>
+
+  <!-- 8. SERIËLE OUTPUT -->
+  <section id="seriele-output">
+    <div class="section-header"><span class="icon">📟</span> 8. Seriële Monitor Output</div>
+    <div class="section-body">
+
+      <p>
+        De controller stuurt alle gebeurtenissen naar de seriële monitor op <strong>9600 baud</strong>.
+        Elk bericht bevat een tijdsstempel in seconden sinds opstart.
+      </p>
+
+      <h2>Voorbeelduitvoer</h2>
+      <pre><code>
+==========================================
+   FH-2 CQ-machine - Arduino NANO v6
+   Met intervaltijd weergave
+==========================================
+
+NANO PIN LAYOUT:
+------------------------------------------
+  A0 = ADC FH-2 input
+  A1 = Potmeter interval
+  D5-D2 = MUX address (S0-S3)
+  D6 = MUX ~EN
+  D7 = Repeat schakelaar (GND=uit)
+  D9 = Puls LED
+  D10 = Status LED (GROEN)
+
+HUIDIGE INSTELLINGEN:
+------------------------------------------
+  Interval: 30 sec
+  Repeat: AAN
+
+==========================================
+ Systeem gereed. Wacht op FH-2 knop...
+==========================================
+
+[5s] KNOP: - -> 1 (ADC=78, 0.38V) | Interval: 30s
+
+==========================================
+>>> INTERVAL CYCLUS GESTART
+>>> Knop: 1 | Interval: 30 sec
+>>> Repeat: AAN
+>>> Druk opnieuw op dezelfde knop om te stoppen
+==========================================
+
+[5s] PULS: 1 | Type: FH-2 | Interval: 30s | MUX: 1
+[35s] PULS: 1 | Type: AUTO | Interval: 30s | MUX: 1
+[65s] PULS: 1 | Type: AUTO | Interval: 30s | MUX: 1
+
+[72s] STATUS: Repeat veranderd: AAN -> UIT
+
+==========================================
+>>> INTERVAL CYCLUS GESTOPT
+==========================================
+      </code></pre>
+
+      <h2>Berichttypen</h2>
+      <table>
+        <thead>
+          <tr><th>Prefix</th><th>Betekenis</th></tr>
+        </thead>
+        <tbody>
+          <tr><td><code>[Xs] KNOP:</code></td><td>Knopwijziging gedetecteerd (oude → nieuwe knop, ADC-waarde, spanning)</td></tr>
+          <tr><td><code>[Xs] PULS:</code></td><td>Puls verstuurd (knopaanduiding, type FH-2 of AUTO, interval, MUX-kanaal)</td></tr>
+          <tr><td><code>[Xs] STATUS:</code></td><td>Repeat-schakelaar of andere status gewijzigd</td></tr>
+          <tr><td><code>[Xs] INFO:</code></td><td>Interval gewijzigd via potmeter</td></tr>
+          <tr><td><code>>>> INTERVAL CYCLUS GESTART</code></td><td>Cyclus gestart (knop + interval)</td></tr>
+          <tr><td><code>>>> INTERVAL CYCLUS GESTOPT</code></td><td>Cyclus gestopt</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- 9. BOUW & INSTALLATIE -->
+  <section id="bouw">
+    <div class="section-header"><span class="icon">🔧</span> 9. Bouw &amp; Installatie</div>
+    <div class="section-body">
+
+      <h2>Bouwstappen</h2>
+      <ol>
+        <li>Monteer de Arduino NANO op een prototype-printplaat of experimenteerplank.</li>
+        <li>Verbind de 74HC4067 MUX-adreslijnen S0–S3 met NANO D5–D2 (let op: S0=D5, S1=D4, S2=D3, S3=D2).</li>
+        <li>Verbind de <code>~EN</code> pin van de MUX met NANO D6.</li>
+        <li>Sluit de VCC en GND van de MUX aan op NANO 5V en GND.</li>
+        <li>Verbind de 10kΩ potmeter: uiteinden naar 5V en GND, wiper naar NANO A1.</li>
+        <li>Sluit de rode LED (met 220Ω in serie) aan van D9 naar GND.</li>
+        <li>Sluit de groene LED (met 220Ω in serie) aan van D10 naar GND.</li>
+        <li>Sluit de toggle schakelaar aan tussen D7 en GND.</li>
+        <li>Verbind de FH-2 weerstandsladder-uitgang met NANO A0.</li>
+        <li>Verbind de MUX-uitgang met de FH-2 besturingsingang via een 3,5mm stereo jack.</li>
+      </ol>
+
+      <h2>Firmware uploaden</h2>
+      <ol>
+        <li>Download <code>FH2_NANO.ino</code> van de <a href="https://github.com/PA3EFR/FH2_repeater" target="_blank">GitHub repository</a>.</li>
+        <li>Open het bestand in de Arduino IDE (versie 1.8.x of 2.x).</li>
+        <li>Selecteer board: <strong>Arduino Nano</strong> (processor: ATmega328P).</li>
+        <li>Selecteer de juiste COM-poort.</li>
+        <li>Klik op <strong>Upload</strong> (→).</li>
+        <li>Open de seriële monitor (9600 baud) om de opstart-header te controleren.</li>
+      </ol>
+
+      <div class="callout callout-warning">
+        <strong>Let op met kloon-NANO's:</strong> Sommige Chinese NANO-klonen gebruiken een
+        CH340G USB-chip. Installeer dan het juiste CH340-stuurprogramma. Selecteer in de
+        Arduino IDE als processor: <em>ATmega328P (Old Bootloader)</em>.
+      </div>
+
+      <h2>Eerste gebruik</h2>
+      <ol>
+        <li>Verbind de controller met de FH-2.</li>
+        <li>Zet de Repeat-schakelaar op AAN.</li>
+        <li>Stel het interval in via de potmeter.</li>
+        <li>Druk op knop 1–5 om een intervalcyclus te starten.</li>
+        <li>Controleer de seriële monitor voor statusberichten.</li>
+        <li>Druk opnieuw op dezelfde knop om de cyclus te stoppen.</li>
+      </ol>
+
+      <div class="callout callout-success">
+        <strong>Tip:</strong> Begin met een lang interval (potmeter max. = 60s) zodat u de
+        werking rustig kunt observeren voordat u de CQ-cyclus in een contest gebruikt.
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<!-- ═══════════════ FOOTER ═══════════════ -->
+<footer>
+  FH-2 Repeater Projectdocument &mdash; PA3EFR &mdash; 2026 &mdash;
+  <a href="https://github.com/PA3EFR/FH2_repeater" target="_blank">github.com/PA3EFR/FH2_repeater</a>
+  &mdash; Gegenereerd door Arena.ai Agent Mode
+</footer>
+
+</body>
+</html>
