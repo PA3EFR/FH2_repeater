@@ -19,10 +19,10 @@
 // ---------------------------------------------------------------------------
 // PIN DEFINITIES - Nano specifiek
 // ---------------------------------------------------------------------------
-#define PIN_S0           2   // Nano D2: MUX S0
-#define PIN_S1           3   // Nano D3: MUX S1
-#define PIN_S2           4   // Nano D4: MUX S2
-#define PIN_S3           5   // Nano D5: MUX S3
+#define PIN_S3           2   // Nano D2: MUX S0
+#define PIN_S2           3   // Nano D3: MUX S1
+#define PIN_S1           4   // Nano D4: MUX S2
+#define PIN_S0           5   // Nano D5: MUX S3
 #define PIN_MUX_EN       6   // Nano D6: MUX Enable (actief laag)
 #define PIN_REPEAT_EN    7   // Nano D7: Repeat enable (LOW=uit, HIGH=aan)
 #define PIN_PULSE_LED    9   // Nano D9: Puls indicator LED
