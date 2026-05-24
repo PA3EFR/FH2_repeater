@@ -1,0 +1,5 @@
+In case you experience frozen control buttons on your Yaesu transceiver, the solution is simple: power up your repeater.
+
+Once the Repeater is powered down, the FH-2 bus to the set drops to zero, thus disabling the control buttons on your transceiver.
+
+So, either keep the repeater powered on during your operations, or disconnect the connector from the transceiver.
