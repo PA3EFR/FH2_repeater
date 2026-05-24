@@ -1,7 +1,7 @@
 **FH-2 Repeater - Functional and Technical Descriptions**
 
 **Functional Description**
-The FH-2 Repeater is an Arduino NANO-based system that provides automated control for the Yaesu FH-2 Morse keyer, enabling users to send pre-programmed (CQ) messages at configurable intervals. This controller bridges the gap between traditional manual keying and modern automation, making it particularly useful for contest stations and field operations where consistent, timed CQ transmissions are essential.
+The FH-2 Repeater is an Arduino NANO-based system that provides automated control for the Yaesu FH-2 Voice keyer, enabling users to send pre-programmed (CQ) messages at configurable intervals. This controller bridges the gap between traditional manual keying and modern automation, making it particularly useful for contest stations and field operations where consistent, timed CQ transmissions are essential.
 
 The system operates by reading the FH-2's button matrix through an analog voltage sensing mechanism, where each button produces a distinct voltage level through a resistor network. When a button is pressed, the controller activates the corresponding channel on a 16-channel analog multiplexer (74HC4067) to send the appropriate control pulse to the FH-2 unit. The core functionality centers on the interval repeat feature, which allows buttons 1 through 5 to automatically repeat their transmission at user-defined intervals ranging from 10 to 60 seconds. A front-panel potentiometer provides real-time adjustment of the interval timing, while a toggle switch enables or disables the repeat functionality entirely.
 
